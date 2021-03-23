@@ -1,0 +1,51 @@
+#include <stdio.h>
+struct fraction
+{
+int num;
+int den;
+};
+typedef struct fraction Fract;
+Fract input()
+{
+Fract f;
+printf("enter numerator");
+scanf("%d",&f.num);
+printf("enter denominator");
+scanf("%d",&f.den);
+return f;
+}
+int gcd(int a, int b) {
+if (a == 0)
+return b;
+return gcd(b%a, a);
+}
+void smallest(Fract f1,Fract f2,int den3, int num3) {
+// Finding gcd of both terms
+int common_factor = gcd(num3,den3);
+den3 = den3/common_factor;
+num3 = num3/common_factor;
+}
+void add_frac(Fract f1, Fract f2,int num3, int den3) {
+// to find the gcd of den1 and den2
+den3 = gcd(f1.den,f2.den);
+// LCM * GCD = a * b
+den3 = (f1.den*f2.den) / den3;
+// Changing the inputs to have same denominator
+// Numerator of the final fraction obtained
+num3 = (f1.num)*(den3/f1.den) + (f2.num)*(den3/f2.den);
+smallest(f1,f2,den3,num3);
+}
+void output(Fract f1, Fract f2,int num3,int den3)
+{
+printf("%d/%d + %d/%d = %d/%d\n", f1.num, f1.den, f2.num, f2.den, num3, den3);
+}
+// Driver program
+int main() {
+int num3,den3;
+Fract f1,f2;
+f1=input();
+f2=input();
+add_frac(f1,f2,num3,den3);
+output(f1,f2,num3,den3);
+return 0;
+}
