@@ -1,51 +1,52 @@
-#include <stdio.h>
-struct fraction
-{
-int num;
-int den;
-};
-typedef struct fraction Fract;
-Fract input()
-{
-Fract f;
-printf("enter numerator");
-scanf("%d",&f.num);
-printf("enter denominator");
-scanf("%d",&f.den);
-return f;
+#include<stdio.h>
+
+typedef struct {
+    int n;
+    int d;
+}fraction;
+
+int gcd(int a, int b) { 
+    int g=1; 
+    for (int i=2; i<=a;i++) {
+        if (a%i==0 && b%i==0) {
+            g=i;
+        }
+    }
+    return g;
 }
-int gcd(int a, int b) {
-if (a == 0)
-return b;
-return gcd(b%a, a);
+
+fraction add(fraction f1, fraction f2) {
+    fraction f3;
+    f3.n = ((f1.n)(f2.d)) + ((f2.n)(f1.d));
+    f3.d = ((f1.d)*(f2.d));
+    int commonFactor = gcd(f3.n, f3.d);
+    f3.n = f3.n/commonFactor;
+    f3.d = f3.d/commonFactor;
+    return f3;
 }
-void smallest(Fract f1,Fract f2,int den3, int num3) {
-// Finding gcd of both terms
-int common_factor = gcd(num3,den3);
-den3 = den3/common_factor;
-num3 = num3/common_factor;
+
+fraction input(){
+    fraction data;
+    printf("Enter the numerator:\n");
+    scanf("%d",&data.n);
+    printf("Enter the denominator:\n");
+    scanf("%d",&data.d);
+    return data;
 }
-void add_frac(Fract f1, Fract f2,int num3, int den3) {
-// to find the gcd of den1 and den2
-den3 = gcd(f1.den,f2.den);
-// LCM * GCD = a * b
-den3 = (f1.den*f2.den) / den3;
-// Changing the inputs to have same denominator
-// Numerator of the final fraction obtained
-num3 = (f1.num)*(den3/f1.den) + (f2.num)*(den3/f2.den);
-smallest(f1,f2,den3,num3);
+void display(fraction f1, fraction f2, fraction f3) {
+    if(f3.n==0)
+        printf("Sum=0\n");
+    else if(f3.n==f3.d)
+        printf("Sum=1\n");
+    else
+        printf("The sum of %d / %d and %d / %d is %d / %d", f1.n, f1.d, f2.n, f2.d, f3.n, f3.d);
 }
-void output(Fract f1, Fract f2,int num3,int den3)
-{
-printf("%d/%d + %d/%d = %d/%d\n", f1.num, f1.den, f2.num, f2.den, num3, den3);
-}
-// Driver program
 int main() {
-int num3,den3;
-Fract f1,f2;
-f1=input();
-f2=input();
-add_frac(f1,f2,num3,den3);
-output(f1,f2,num3,den3);
-return 0;
+    fraction f1, f2,f3;
+    f1=input();
+    f2=input();
+    f3=add(f1, f2); 
+    display(f1, f2, f3);
+    printf("\n");
+    return 0;
 }
